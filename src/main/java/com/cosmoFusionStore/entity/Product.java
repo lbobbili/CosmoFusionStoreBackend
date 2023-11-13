@@ -22,6 +22,12 @@ public class Product {
     @Column(name="product_name")
     private String productName;
 
+    @Column(name="product_category")
+    private String productCategory;
+
+    @Column(name="product_stock")
+    private String productStock;
+
     @Column(name="product_price")
     private double productPrice;
 
@@ -31,9 +37,10 @@ public class Product {
     @Column(name="product_image")
     private String productImage;
 
-    @Column(name="user_id")
-    private String userId;
+    @Column(name="vendor_id")
+    private int vendorId;
 
     @Column(name="registration_status")
     private String registrationStatus;
+
 }

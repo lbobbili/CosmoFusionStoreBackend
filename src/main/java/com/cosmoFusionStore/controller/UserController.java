@@ -30,13 +30,13 @@ public class UserController {
     private RetrieveUserDetailsMapper retrieveUserDetailsMapper;
 
     @PostMapping("/registration")
-    public ResponseEntity<UserResponse> registration(@RequestBody RegistrationRequest registrationRequest) {
-        UserResponse userResponse = this.userService.register(registrationRequest);
+    public ResponseEntity<UserDTO> registration(@RequestBody RegistrationRequest registrationRequest) {
+        UserDTO userResponse = this.userService.register(registrationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @PostMapping("/authenticate")
-    public UserResponse authenticateUser(@RequestBody AuthenticateRequest authenticateRequest) {
+    public UserDTO authenticateUser(@RequestBody AuthenticateRequest authenticateRequest) {
         return this.userService.signin(authenticateRequest);
     }
 

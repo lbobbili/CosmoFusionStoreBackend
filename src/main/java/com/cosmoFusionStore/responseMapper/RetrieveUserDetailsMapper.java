@@ -14,7 +14,6 @@ public class RetrieveUserDetailsMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
-                .registrationStatus(user.getRegistrationStatus())
                 .build();
     }
 }

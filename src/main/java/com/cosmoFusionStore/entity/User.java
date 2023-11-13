@@ -34,7 +34,9 @@ public class User {
     @Column(name="phone_number")
     private String phoneNumber;
 
-    @Column(name="registration_status")
-    private String registrationStatus;
+    @Column(name="is_admin")
+    private boolean isAdmin;
+
+
 
 }

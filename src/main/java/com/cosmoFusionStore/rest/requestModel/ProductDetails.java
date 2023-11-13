@@ -14,5 +14,7 @@ public class ProductDetails {
     private double productPrice;
     private String productDescription;
     private String productImage;
-    private String vendorId;
+    private int vendorId;
+    private String productCategory;
+    private String productStock;
 }

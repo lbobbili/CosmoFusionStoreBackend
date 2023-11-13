@@ -3,6 +3,7 @@ package com.cosmoFusionStore.acquire;
 import com.cosmoFusionStore.dao.RoleDAO;
 import com.cosmoFusionStore.dao.UserDAO;
 import com.cosmoFusionStore.dto.UserDTO;
+import com.cosmoFusionStore.dto.VendorDTO;
 import com.cosmoFusionStore.entity.Role;
 import com.cosmoFusionStore.entity.User;
 import com.cosmoFusionStore.entity.UserWithRoles;
@@ -41,11 +42,12 @@ public class UserAcquirer {
                 .phoneNumber(registrationRequest.getPhoneNumber())
                 .build();
 
-        if("3".equals(registrationRequest.getRegisterType())) {
-            user.setRegistrationStatus(RegistrationStatusEnum.APPROVED.getRegistrationType());
-        } else {
-            user.setRegistrationStatus(RegistrationStatusEnum.PENDING.getRegistrationType());
-        }
+
+//        if("3".equals(registrationRequest.getRegisterType())) {
+//            user.setRegistrationStatus(RegistrationStatusEnum.APPROVED.getRegistrationType());
+//        } else {
+//            user.setRegistrationStatus(RegistrationStatusEnum.PENDING.getRegistrationType());
+//        }
 
         try {
             this.userDAO.save(user);
@@ -53,28 +55,35 @@ public class UserAcquirer {
             throw new SignupDataAcquirerException("Exception occurred at the time of inserting user data.");
         }
 
-        String roleId = CosmoFusionStoreUtil.generateUUID();
-        String userRole = RolesEnum.getRoleById(registrationRequest.getRegisterType());
-        if(userRole != null) {
-            Role role = Role.builder()
-                    .roleId(roleId)
-                    .roleName(userRole)
-                    .userId(userId)
-                    .build();
+        return UserDTO.builder()
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
 
-            try {
-                this.roleDAO.save(role);
-            } catch(Exception exception) {
-                throw new SignupDataAcquirerException("Exception occurred at the time of inserting user role data.");
-            }
-            return UserDTO.builder()
-                    .email(user.getEmail())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .role(role.getRoleName())
-                    .build();
-        }
-        throw new BadRequestException("RegisterType is invalid.");
+
+      //  String roleId = CosmoFusionStoreUtil.generateUUID();
+     //   String userRole = RolesEnum.getRoleById(registrationRequest.getRegisterType());
+//        if(userRole != null) {
+//            Role role = Role.builder()
+//                    .roleId(roleId)
+//                    .roleName(userRole)
+//                    .userId(userId)
+//                    .build();
+//
+//            try {
+//                this.roleDAO.save(role);
+//            } catch(Exception exception) {
+//                throw new SignupDataAcquirerException("Exception occurred at the time of inserting user role data.");
+//            }
+//            return UserDTO.builder()
+//                    .email(user.getEmail())
+//                    .firstName(user.getFirstName())
+//                    .lastName(user.getLastName())
+//                    .role(role.getRoleName())
+//                    .build();
+//        }
+//        throw new BadRequestException("RegisterType is invalid.");
     }
 
     public boolean hasEmailAddress(String email) {

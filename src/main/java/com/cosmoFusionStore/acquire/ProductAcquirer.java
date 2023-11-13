@@ -24,9 +24,11 @@ public class ProductAcquirer {
         Product product = Product.builder()
                 .productName(productDetails.getProductName())
                 .productPrice(productDetails.getProductPrice())
+                .productCategory(productDetails.getProductCategory())
+                .productStock(productDetails.getProductStock())
                 .productDescription(productDetails.getProductDescription())
                 .productImage(productDetails.getProductImage())
-                .userId(productDetails.getVendorId())
+                .vendorId(productDetails.getVendorId())
                 .registrationStatus(RegistrationStatusEnum.PENDING.getRegistrationType())
                 .build();
 
@@ -37,8 +39,8 @@ public class ProductAcquirer {
         return this.productDAO.retrieveProductsByVendorId(vendorId);
     }
 
-    public List<Product> retrievePendingProducts() {
-        return this.productDAO.retrieveProductsByStatus(RegistrationStatusEnum.PENDING.getStatus());
+    public List<Product> retrievePendingProducts(String status) {
+        return this.productDAO.retrieveProductsByStatus(status.toUpperCase());
     }
 
     public CommonResponse updateProduct(ProductRequest productRequest) {
@@ -62,4 +64,6 @@ public class ProductAcquirer {
     public void addProductsToCart(List<AddProductsToCartRequest> addProductsToCartRequest) {
         this.orderDAO.addProductsToCart(addProductsToCartRequest);
     }
+
+
 }

@@ -12,4 +12,6 @@ public interface ProductDAO {
     List<Product> retrieveProductsByStatus(String status);
     int updateProductStatus (ProductRequest productRequest);
     Product retrieveProductById(int productId);
+
+
 }

@@ -3,6 +3,7 @@ package com.cosmoFusionStore.daoimpl;
 import com.cosmoFusionStore.dao.ProductDAO;
 import com.cosmoFusionStore.entity.Product;
 import com.cosmoFusionStore.entity.UserWithRoles;
+import com.cosmoFusionStore.entity.Vendor;
 import com.cosmoFusionStore.rest.requestModel.AddProductsToCartRequest;
 import com.cosmoFusionStore.rest.requestModel.ProductRequest;
 import jakarta.persistence.EntityManager;
@@ -22,6 +23,7 @@ public class ProductDAOImpl implements ProductDAO {
     private static final String RETRIEVE_PRODUCTS_BY_STATUS = "FROM Product WHERE registrationStatus =: status";
     private static final String RETRIEVE_PRODUCTS_BY_ID = "FROM Product WHERE productId =: id";
     private static final String UPDATE_PRODUCT_STATUS = "UPDATE Product SET registrationStatus=:status WHERE productId=:id";
+
 
     @Autowired
     private EntityManager entityManager;
@@ -63,4 +65,6 @@ public class ProductDAOImpl implements ProductDAO {
         List<Product> productList = query.getResultList();
         return productList.get(0);
     }
+
+
 }

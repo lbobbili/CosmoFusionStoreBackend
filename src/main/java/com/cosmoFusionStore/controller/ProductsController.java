@@ -1,5 +1,6 @@
 package com.cosmoFusionStore.controller;
 
+import com.cosmoFusionStore.dto.ProductDTO;
 import com.cosmoFusionStore.entity.Product;
 import com.cosmoFusionStore.rest.requestModel.ProductDetails;
 import com.cosmoFusionStore.rest.requestModel.ProductRequest;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProductsController {
 
     @Autowired
@@ -26,17 +28,19 @@ public class ProductsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
     }
 
+    @GetMapping("/retrieve/{status}")
+    public ResponseEntity<List<ProductDTO>> retrieveProductsWithStatus(@PathVariable String status) {
+        List<ProductDTO> productList = this.productService.retrievePendingProductDetails(status);
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+
     @GetMapping("/retrieve")
     public ResponseEntity<List<Product>> retrieveProducts(@RequestParam(required = false) String vendorId) {
         List<Product> productList = this.productService.retrieveProductDetails(vendorId);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
-    @GetMapping("/retrieve-pending")
-    public ResponseEntity<List<Product>> retrieveProducts() {
-        List<Product> productList = this.productService.retrievePendingProductDetails();
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
-    }
+
 
     @PutMapping("/status")
     public ResponseEntity<CommonResponse> updateProductStatus(@RequestBody ProductRequest productRequest) {

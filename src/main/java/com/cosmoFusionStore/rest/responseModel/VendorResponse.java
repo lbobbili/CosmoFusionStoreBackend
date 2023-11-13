@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
-    private String userId;
-    private String firstName;
-    private String lastName;
+public class VendorResponse {
+
+    private String vendorId;
+    private String vendorCompany;
+    private String vendorName;
     private String email;
-   // private List<String> roles;
+    private String brandName;
+    private String status;
 }

@@ -1,6 +1,7 @@
 package com.cosmoFusionStore.validate;
 
 import com.cosmoFusionStore.rest.requestModel.UpdateRegistrationStatusRequest;
+import com.cosmoFusionStore.rest.requestModel.VendorRegistrationRequest;
 import com.cosmoFusionStore.serviceexception.BadRequestException;
 import com.cosmoFusionStore.rest.requestModel.RegistrationRequest;
 import com.cosmoFusionStore.enums.RolesEnum;
@@ -29,10 +30,31 @@ public class RegisterRequestValidation {
             notNullNorEmptyErrorMsg("password", false);
         } else if(registrationRequest.getPhoneNumber() == null || registrationRequest.getPhoneNumber().isBlank()) {
             notNullNorEmptyErrorMsg("phoneNumber", false);
-        } else if(registrationRequest.getRegisterType() == null || registrationRequest.getRegisterType().isBlank()) {
-            notNullNorEmptyErrorMsg("designation", false);
-        } else if(RolesEnum.getRoleById(registrationRequest.getRegisterType()) == null) {
-            throw new BadRequestException("registerType is invalid.");
+        }
+//        else if(registrationRequest.getRegisterType() == null || registrationRequest.getRegisterType().isBlank()) {
+//            notNullNorEmptyErrorMsg("designation", false);
+//        } else if(RolesEnum.getRoleById(registrationRequest.getRegisterType()) == null) {
+//            throw new BadRequestException("registerType is invalid.");
+//        }
+    }
+
+    public void validateVendorRegisterRequest(VendorRegistrationRequest registrationRequest) {
+        if(registrationRequest == null) {
+            throw new BadRequestException("registrationRequest object should not be null");
+        } else if(registrationRequest.getVendorCompany() == null || registrationRequest.getVendorCompany().isBlank()) {
+            notNullNorEmptyErrorMsg("vendorCompany", false);
+        } else if(registrationRequest.getVendorName() == null || registrationRequest.getVendorName().isBlank()) {
+            notNullNorEmptyErrorMsg("vendorName", false);
+        } else if(registrationRequest.getEmail() == null || registrationRequest.getEmail().isBlank()) {
+            notNullNorEmptyErrorMsg("email", false);
+        } else if(!validateEmailPattern(registrationRequest.getEmail())) {
+            throw new BadRequestException("email is not in a valid format.");
+        } else if(registrationRequest.getPassword() == null || registrationRequest.getPassword().isBlank()) {
+            notNullNorEmptyErrorMsg("password", false);
+        } else if(registrationRequest.getPhoneNumber() == null || registrationRequest.getPhoneNumber().isBlank()) {
+            notNullNorEmptyErrorMsg("phoneNumber", false);
+        } else if(registrationRequest.getBrandName() == null || registrationRequest.getBrandName().isBlank()) {
+            notNullNorEmptyErrorMsg("brandName", false);
         }
     }
 

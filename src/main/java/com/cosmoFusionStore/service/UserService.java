@@ -29,18 +29,20 @@ public class UserService {
     @Autowired
     private UserAcquirer userAcquirer;
 
-    public UserResponse register(RegistrationRequest registrationRequest) {
+    public UserDTO register(RegistrationRequest registrationRequest) {
         this.requestValidation.validateRegisterRequest(registrationRequest);
         boolean isExistingUser = this.userAcquirer.hasEmailAddress(registrationRequest.getEmail());
+        UserDTO userDTO;
         if(!isExistingUser) {
-            this.userAcquirer.signupData(registrationRequest);
+            userDTO = this.userAcquirer.signupData(registrationRequest);
+
         }
         else throw new SignupDataAcquirerException("Can't able to signup as user is already present with this email");
 
-        return signin(new AuthenticateRequest(registrationRequest.getEmail(), registrationRequest.getPassword()));
+        return userDTO;
     }
 
-    public UserResponse signin(AuthenticateRequest request) {
+    public UserDTO signin(AuthenticateRequest request) {
         UserResponse userResponse = new UserResponse();
         User user = this.userAcquirer.retrieveUserData(request.getEmail(), request.getPassword());
         if(user != null) user.setPassword("***Masked***");
@@ -49,18 +51,14 @@ public class UserService {
             user.setEmail("Not Found");
             user.setPassword("Not Found");
         }
-        List<Role> roleList = this.userAcquirer.retrieveRoleByUserId(user.getUserId());
-        List<String> roleNames = roleList.stream().map(Role::getRoleName).toList();
-        if(roleNames.size() > 0) {
-           userResponse = UserResponse.builder()
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .email(user.getEmail())
-                    .roles(roleNames)
-                    .userId(user.getUserId())
-                    .build();
-        }
-        return userResponse;
+
+        UserDTO userDTO = UserDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .isAdmin(user.isAdmin())
+                .build();
+        return userDTO;
     }
 
     public List<RolesResponse> retrieveUserRoles() {
